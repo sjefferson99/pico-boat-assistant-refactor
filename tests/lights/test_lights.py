@@ -72,3 +72,14 @@ def test_different_light_switched_off(mocker):
     assert isinstance(light, Pin)
     assert light.id == 1
     assert light.mode == Pin.OUT
+
+def test_set_pwn_frequency(mocker):
+    mocked_PWM_freq = mocker.patch('machine.PWM.freq')
+    lights_driver = Lights_Driver()
+    lights_driver.light_pwm_init(0)
+    mocked_PWM_freq.assert_called_once()
+
+'''
+Light has been init
+light has been pwm init
+'''

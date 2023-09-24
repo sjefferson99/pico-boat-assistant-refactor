@@ -50,6 +50,43 @@ class I2C:
     def scan(self):
         pass
 
+class PWM:
+    """
+    Pulse width modulation (PWM), allows you to give analogue behaviours to digital
+    devices, such as LEDs. This means that rather than an LED being simply on or
+    off, you can control its brightness.
+
+    Example usage::
+
+       from machine import PWM
+
+       pwm = PWM(pin)          # create a PWM object on a pin
+       pwm.duty_u16(32768)     # set duty to 50%
+
+       # reinitialise with a period of 200us, duty of 5us
+       pwm.init(freq=5000, duty_ns=5000)
+
+       pwm.duty_ns(3000)       # set pulse width to 3us
+
+       pwm.deinit()
+    """
+
+    def __init__(self, pin: Pin):
+        """
+        Construct and return a new PWM object using the following parameters:
+
+           - *pin* should be the pin to use.
+        """
+        pass
+
+    def freq(self, frequency: int|None=...):
+        """
+        With no arguments the frequency in Hz is returned.
+
+        With a single *value* argument the frequency is set to that value in Hz.  The method may raise a ``ValueError`` if the frequency is outside the valid range.
+        """
+        pass
+
 # network module
 class WLAN():
     def __init__(self, interface) -> None:
@@ -79,6 +116,7 @@ def rp2_country(id: str):
 machine = type(sys)('machine')
 machine.Pin = Pin
 machine.I2C = I2C
+machine.PWM = PWM
 
 network = type(sys)('network')
 network.WLAN = WLAN

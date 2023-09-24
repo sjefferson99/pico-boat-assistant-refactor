@@ -1,4 +1,4 @@
-from machine import Pin
+from machine import Pin, PWM
 
 class Lights_Driver:
     def __init__(self) -> None:
@@ -13,3 +13,7 @@ class Lights_Driver:
         light = Pin(id, Pin.OUT)
         light.off()
         return light
+    
+    def light_pwm_init(self, id: int):
+        light = PWM(Pin(id, Pin.OUT))
+        light.freq(1000)
