@@ -4,7 +4,11 @@ from time import sleep
 lights_driver = Lights_Driver()
 
 while(True):
-    lights_driver.light_on()
-    sleep(0.5)
-    lights_driver.light_off()
-    sleep(0.5)
+    light = 0
+    
+    while light < 16:
+        lights_driver.light_on(light)
+        sleep(0.1)
+        lights_driver.light_off(light)
+        sleep(0.1)
+        light += 1
