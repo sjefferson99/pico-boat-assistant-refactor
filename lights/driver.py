@@ -7,7 +7,9 @@ class Lights_Driver:
     def light_on(self):
         light = Pin(0, Pin.OUT)
         light.on()
+        return light
     
     def light_off(self):
         light = Pin(0, Pin.OUT)
         light.off()
+        return light
