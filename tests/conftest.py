@@ -21,18 +21,26 @@ class Pin:
     OUT = 1 # type: int
     PULL_DOWN = 2 # type: int
     PULL_UP = 1 # type: int
-    
-    def __init__(self, id: int|str, /, mode: int = IN, pull: int = PULL_UP, af: str|int = -1):
-    #def __init__(self, id: str, mode: int = 0) -> None:
+
+    def __init__(self, id: int|str, /, mode: int = IN, pull: int = PULL_UP) -> None:
         pass
     
-    def on(self):
-        return 0
+    def off(self) -> None:
+        """
+        Sets the pin to be off.
+        """
+        pass
+
+    def on(self) -> None:
+        """
+        Sets the pin to be on.
+        """
+        pass
     
-    def off(self):
-        return 0
-    
-    def toggle(self):
+    def toggle(self) -> None:
+        """
+        Sets the pin to high if it's currently low, and vice versa.
+        """
         pass
     
 class I2C:
