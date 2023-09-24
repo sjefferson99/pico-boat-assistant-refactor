@@ -1,0 +1,1 @@
+Pico Boat Assistant is built against the [Pimoroni micropython v1.20.6](https://github.com/pimoroni/pimoroni-pico/releases/tag/v1.20.6).
