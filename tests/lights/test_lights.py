@@ -6,6 +6,12 @@ def test_import_light_driver():
     lights_driver = Lights_Driver()
     assert isinstance(lights_driver, Lights_Driver) == True
 
+def test_all_light_pins_initialised():
+    lights_driver = Lights_Driver()
+    lights_driver.init_all_pins()
+    for light in lights_driver.lights:
+        assert isinstance(light, Pin) == True
+
 def test_light_switched_on(mocker):
     mocked_Pin_on = mocker.patch('machine.Pin.on')
     lights_driver = Lights_Driver()

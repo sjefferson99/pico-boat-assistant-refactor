@@ -2,7 +2,11 @@ from machine import Pin, PWM
 
 class Lights_Driver:
     def __init__(self) -> None:
-        pass
+        self.lights = []
+
+    def init_all_pins(self):
+        for i in range(0,15):
+            self.lights.append(Pin(i, Pin.OUT))
 
     def light_on(self, id: int):
         try:
