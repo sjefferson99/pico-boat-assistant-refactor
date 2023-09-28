@@ -4,10 +4,16 @@ class Lights_Driver:
     def __init__(self) -> None:
         self.lights = []
         self.init_all_pins()
+        self.pwm_lights = []
+
 
     def init_all_pins(self):
         for i in range(0,15):
             self.lights.append(Pin(i, Pin.OUT))
+
+    def init_all_pwm_pins(self):
+        for i in range(0,15):
+            self.pwm_lights.append(self.light_pwm_init(self.lights[i]))
 
     def light_on(self, id: int):
         try:

@@ -1,6 +1,6 @@
 import pytest
 from lights.driver import Lights_Driver
-from machine import Pin
+from machine import Pin, PWM
 
 def test_import_light_driver():
     lights_driver = Lights_Driver()
@@ -10,6 +10,11 @@ def test_all_light_pins_initialised():
     lights_driver = Lights_Driver()
     for light in lights_driver.lights:
         assert isinstance(light, Pin) == True
+
+def test_all_light_pins_pwm_initialised():
+    lights_driver = Lights_Driver()
+    for light in lights_driver.pwm_lights:
+        assert isinstance(light, PWM) == True
 
 def test_light_switched_on(mocker):
     mocked_Pin_on = mocker.patch('machine.Pin.on')
@@ -98,7 +103,3 @@ def test_set_pwn_frequency(mocker):
     lights_driver = Lights_Driver()
     lights_driver.light_pwm_init(0)
     mocked_PWM_freq.assert_called_once()
-
-'''
-light has been pwm init
-'''
