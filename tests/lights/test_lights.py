@@ -8,7 +8,6 @@ def test_import_light_driver():
 
 def test_all_light_pins_initialised():
     lights_driver = Lights_Driver()
-    lights_driver.init_all_pins()
     for light in lights_driver.lights:
         assert isinstance(light, Pin) == True
 
@@ -101,6 +100,5 @@ def test_set_pwn_frequency(mocker):
     mocked_PWM_freq.assert_called_once()
 
 '''
-light won't on/off if invalid gpio
 light has been pwm init
 '''

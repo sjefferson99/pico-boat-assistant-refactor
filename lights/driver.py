@@ -3,6 +3,7 @@ from machine import Pin, PWM
 class Lights_Driver:
     def __init__(self) -> None:
         self.lights = []
+        self.init_all_pins()
 
     def init_all_pins(self):
         for i in range(0,15):
@@ -11,9 +12,8 @@ class Lights_Driver:
     def light_on(self, id: int):
         try:
             self.check_valid_light_gpio(id)
-            light = Pin(id, Pin.OUT)
-            light.on()
-            return light
+            self.lights[id].on()
+            return self.lights[id]
         except ValueError as err:
             print(err)
             raise
@@ -21,9 +21,8 @@ class Lights_Driver:
     def light_off(self, id: int):
         try:
             self.check_valid_light_gpio(id)
-            light = Pin(id, Pin.OUT)
-            light.off()
-            return light
+            self.lights[id].off()
+            return self.lights[id]
         except ValueError as err:
             print(err)
             raise
