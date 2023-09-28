@@ -1,3 +1,4 @@
+import pytest
 from lights.driver import Lights_Driver
 from machine import Pin
 
@@ -45,6 +46,13 @@ def test_different_light_switched_on(mocker):
     assert light.id == 1
     assert light.mode == Pin.OUT
 
+def test_invalid_light_not_switched_on(mocker):    
+    mocked_Pin_on = mocker.patch('machine.Pin.on')
+    lights_driver = Lights_Driver()
+    with pytest.raises(ValueError):
+        lights_driver.light_on(17)
+    mocked_Pin_on.assert_not_called()
+
 def test_specific_light_switched_off(mocker):
     def init_mock(self, id, mode):
         self.id = id
@@ -73,6 +81,13 @@ def test_different_light_switched_off(mocker):
     assert light.id == 1
     assert light.mode == Pin.OUT
 
+def test_invalid_light_not_switched_off(mocker):    
+    mocked_Pin_off = mocker.patch('machine.Pin.off')
+    lights_driver = Lights_Driver()
+    with pytest.raises(ValueError):
+        lights_driver.light_off(17)
+    mocked_Pin_off.assert_not_called()
+
 def test_set_pwn_frequency(mocker):
     mocked_PWM_freq = mocker.patch('machine.PWM.freq')
     lights_driver = Lights_Driver()
@@ -80,6 +95,6 @@ def test_set_pwn_frequency(mocker):
     mocked_PWM_freq.assert_called_once()
 
 '''
-Light has been init
+light won't on/off if invalid gpio
 light has been pwm init
 '''

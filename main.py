@@ -6,7 +6,7 @@ lights_driver = Lights_Driver()
 while(True):
     light = 0
     
-    while light < 16:
+    while light < 17:
         lights_driver.light_on(light)
         sleep(0.1)
         lights_driver.light_off(light)
