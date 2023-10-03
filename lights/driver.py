@@ -33,9 +33,10 @@ class Lights_Driver:
             print(err)
             raise
     
-    def light_pwm_init(self, id: int):
-        light = PWM(Pin(id, Pin.OUT))
+    def light_pwm_init(self, light: Pin):
+        light = PWM(light)
         light.freq(1000)
+        return light
 
     def check_valid_light_gpio(self, pin):
         if pin >=0 and pin <= 15:
