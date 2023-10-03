@@ -6,6 +6,7 @@ class Lights_Driver:
         self.lights = []
         self.init_all_pins()
         self.pwm_lights = []
+        self.init_all_pwm_pins()
         self.MAX_DUTY = 65535
 
     def init_all_pins(self):

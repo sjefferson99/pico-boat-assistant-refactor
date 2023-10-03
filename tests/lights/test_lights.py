@@ -13,6 +13,7 @@ def test_all_light_pins_initialised():
 
 def test_all_light_pins_pwm_initialised():
     lights_driver = Lights_Driver()
+    assert len(lights_driver.pwm_lights) > 0
     for light in lights_driver.pwm_lights:
         assert isinstance(light, PWM) == True
 
@@ -108,7 +109,8 @@ def test_pwm_init_sets_pwm_frequency(mocker):
     mocked_PWM_freq = mocker.patch('machine.PWM.freq')
     lights_driver = Lights_Driver()
     lights_driver.light_pwm_init(Pin(0, Pin.OUT))
-    mocked_PWM_freq.assert_called_once()
+    mocked_PWM_freq.assert_any_call(1000)
+    assert mocked_PWM_freq.call_count == 16
 
 def test_set_light_to_half_brightness(mocker):
     mock_pwm_duty = mocker.patch("machine.PWM.duty_u16")
