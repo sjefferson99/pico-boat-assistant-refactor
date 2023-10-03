@@ -87,6 +87,16 @@ class PWM:
         """
         pass
 
+    def duty_u16(self, duration: int|None=...):
+        """
+        Get or Set the current duty cycle of the PWM output, as an unsigned 16-bit value in the range 0 to 65535 inclusive.
+
+        With no arguments the duty cycle is returned.
+
+        With a single *value* argument the duty cycle is set to that value, measured as the ratio ``value / 65535``.
+        """
+        pass
+
 # network module
 class WLAN():
     def __init__(self, interface) -> None:

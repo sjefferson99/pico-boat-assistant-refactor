@@ -1,11 +1,12 @@
 from machine import Pin, PWM
 
 class Lights_Driver:
+
     def __init__(self) -> None:
         self.lights = []
         self.init_all_pins()
         self.pwm_lights = []
-
+        self.MAX_DUTY = 65535
 
     def init_all_pins(self):
         for i in range(0,15):
@@ -37,6 +38,9 @@ class Lights_Driver:
         light = PWM(light)
         light.freq(1000)
         return light
+    
+    def set_brightness(self, light: PWM, fraction: float):
+        light.duty_u16(int(fraction * self.MAX_DUTY))
 
     def check_valid_light_gpio(self, pin):
         if pin >=0 and pin <= 15:
