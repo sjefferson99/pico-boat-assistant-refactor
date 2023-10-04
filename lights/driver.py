@@ -42,6 +42,9 @@ class Lights_Driver:
             print(err)
             raise
 
+    def light_set_brightness(self, id: int, brightness: float):
+        self.set_brightness(self.lights[id], brightness)
+
     def check_valid_light_gpio(self, pin):
         if pin >=0 and pin <= 15:
             return True

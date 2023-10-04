@@ -99,3 +99,9 @@ def test_cant_set_brightness_greater_than_1(mocker):
     with pytest.raises(ValueError):
         lights_driver.set_brightness(light0, 1.1)
     mocked_pwm_on.assert_not_called()
+
+def test_specific_light_brightness_set_by_id(mocker):
+    mocked_set_brightness = mocker.patch("lights.driver.Lights_Driver.set_brightness")
+    lights_driver = Lights_Driver()
+    lights_driver.light_set_brightness(0, 0.5)
+    mocked_set_brightness.assert_called_once_with(lights_driver.lights[0], 0.5)

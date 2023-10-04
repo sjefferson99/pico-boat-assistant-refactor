@@ -16,3 +16,6 @@ lights_driver.light_off(3)
 sleep(1)
 
 lights_driver.light_on(3)
+
+lights_driver.light_set_brightness(0, 0.9)
+lights_driver.light_set_brightness(13, 0.1)
