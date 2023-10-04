@@ -6,56 +6,35 @@ def test_import_light_driver():
     lights_driver = Lights_Driver()
     assert isinstance(lights_driver, Lights_Driver) == True
 
-def test_all_light_pins_initialised():
-    lights_driver = Lights_Driver()
-    for light in lights_driver.lights:
-        assert isinstance(light, Pin) == True
-
 def test_all_light_pins_pwm_initialised():
     lights_driver = Lights_Driver()
-    assert len(lights_driver.pwm_lights) > 0
-    for light in lights_driver.pwm_lights:
+    assert len(lights_driver.lights) > 0
+    for light in lights_driver.lights:
         assert isinstance(light, PWM) == True
 
 def test_light_switched_on(mocker):
-    mocked_Pin_on = mocker.patch('machine.Pin.on')
+    mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
     lights_driver.light_on(0)
-    mocked_Pin_on.assert_called_once()
+    mocked_pwm_on.assert_called_once_with(65535)
 
 def test_light_switched_off(mocker):
-    mocked_Pin_off = mocker.patch('machine.Pin.off')
+    mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
     lights_driver.light_off(0)
-    mocked_Pin_off.assert_called_once()
+    mocked_pwm_on.assert_called_once_with(0)
 
 def test_specific_light_switched_on(mocker):
-    def init_mock(self, id, mode):
-        self.id = id
-        self.mode = mode
-    
-    mocker.patch.object(Pin, "__init__", init_mock)
-    
+    mocked_set_brightness = mocker.patch("lights.driver.Lights_Driver.set_brightness")
     lights_driver = Lights_Driver()
-    light = lights_driver.light_on(0)
-
-    assert isinstance(light, Pin)
-    assert light.id == 0
-    assert light.mode == Pin.OUT
+    lights_driver.light_on(0)
+    mocked_set_brightness.assert_called_once_with(lights_driver.lights[0], 1)
 
 def test_different_light_switched_on(mocker):
-    def init_mock(self, id, mode):
-        self.id = id
-        self.mode = mode
-    
-    mocker.patch.object(Pin, "__init__", init_mock)
-    
+    mocked_set_brightness = mocker.patch("lights.driver.Lights_Driver.set_brightness")
     lights_driver = Lights_Driver()
-    light = lights_driver.light_on(1)
-
-    assert isinstance(light, Pin)
-    assert light.id == 1
-    assert light.mode == Pin.OUT
+    lights_driver.light_on(4)
+    mocked_set_brightness.assert_called_once_with(lights_driver.lights[4], 1)
 
 def test_invalid_light_not_switched_on(mocker):    
     mocked_Pin_on = mocker.patch('machine.Pin.on')
@@ -65,32 +44,16 @@ def test_invalid_light_not_switched_on(mocker):
     mocked_Pin_on.assert_not_called()
 
 def test_specific_light_switched_off(mocker):
-    def init_mock(self, id, mode):
-        self.id = id
-        self.mode = mode
-    
-    mocker.patch.object(Pin, "__init__", init_mock)
-    
+    mocked_set_brightness = mocker.patch("lights.driver.Lights_Driver.set_brightness")
     lights_driver = Lights_Driver()
-    light = lights_driver.light_off(0)
-
-    assert isinstance(light, Pin)
-    assert light.id == 0
-    assert light.mode == Pin.OUT
+    lights_driver.light_off(0)
+    mocked_set_brightness.assert_called_once_with(lights_driver.lights[0], 0)
 
 def test_different_light_switched_off(mocker):
-    def init_mock(self, id, mode):
-        self.id = id
-        self.mode = mode
-    
-    mocker.patch.object(Pin, "__init__", init_mock)
-    
+    mocked_set_brightness = mocker.patch("lights.driver.Lights_Driver.set_brightness")
     lights_driver = Lights_Driver()
-    light = lights_driver.light_off(1)
-
-    assert isinstance(light, Pin)
-    assert light.id == 1
-    assert light.mode == Pin.OUT
+    lights_driver.light_off(5)
+    mocked_set_brightness.assert_called_once_with(lights_driver.lights[5], 0)
 
 def test_invalid_light_not_switched_off(mocker):    
     mocked_Pin_off = mocker.patch('machine.Pin.off')
@@ -124,7 +87,7 @@ def test_set_light_to_half_brightness(mocker):
 def test_cant_set_brightness_less_than_0(mocker):
     mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
-    light0 = lights_driver.pwm_lights[0]
+    light0 = lights_driver.lights[0]
     with pytest.raises(ValueError):
         lights_driver.set_brightness(light0, -0.1)
     mocked_pwm_on.assert_not_called()
@@ -132,7 +95,7 @@ def test_cant_set_brightness_less_than_0(mocker):
 def test_cant_set_brightness_greater_than_1(mocker):
     mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
-    light0 = lights_driver.pwm_lights[0]
+    light0 = lights_driver.lights[0]
     with pytest.raises(ValueError):
         lights_driver.set_brightness(light0, 1.1)
     mocked_pwm_on.assert_not_called()

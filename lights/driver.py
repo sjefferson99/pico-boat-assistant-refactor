@@ -4,23 +4,17 @@ class Lights_Driver:
 
     def __init__(self) -> None:
         self.lights = []
-        self.init_all_pins()
-        self.pwm_lights = []
-        self.init_all_pwm_pins()
+        self.init_all_lights()
         self.MAX_DUTY = 65535
 
-    def init_all_pins(self):
+    def init_all_lights(self):
         for i in range(0,15):
-            self.lights.append(Pin(i, Pin.OUT))
-
-    def init_all_pwm_pins(self):
-        for i in range(0,15):
-            self.pwm_lights.append(self.light_pwm_init(self.lights[i]))
+            self.lights.append(self.light_pwm_init(Pin(i, Pin.OUT)))
 
     def light_on(self, id: int):
         try:
             self.check_valid_light_gpio(id)
-            self.lights[id].on()
+            self.set_brightness(self.lights[id], 1)
             return self.lights[id]
         except ValueError as err:
             print(err)
@@ -29,7 +23,7 @@ class Lights_Driver:
     def light_off(self, id: int):
         try:
             self.check_valid_light_gpio(id)
-            self.lights[id].off()
+            self.set_brightness(self.lights[id], 0)
             return self.lights[id]
         except ValueError as err:
             print(err)
