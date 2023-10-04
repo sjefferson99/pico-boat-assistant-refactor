@@ -120,3 +120,19 @@ def test_set_light_to_half_brightness(mocker):
     lights_driver.set_brightness(light, 0.5)
 
     mock_pwm_duty.assert_called_once_with(32767)
+
+def test_cant_set_brightness_less_than_0(mocker):
+    mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
+    lights_driver = Lights_Driver()
+    light0 = lights_driver.pwm_lights[0]
+    with pytest.raises(ValueError):
+        lights_driver.set_brightness(light0, -0.1)
+    mocked_pwm_on.assert_not_called()
+
+def test_cant_set_brightness_greater_than_1(mocker):
+    mocked_pwm_on = mocker.patch('machine.PWM.duty_u16')
+    lights_driver = Lights_Driver()
+    light0 = lights_driver.pwm_lights[0]
+    with pytest.raises(ValueError):
+        lights_driver.set_brightness(light0, 1.1)
+    mocked_pwm_on.assert_not_called()
