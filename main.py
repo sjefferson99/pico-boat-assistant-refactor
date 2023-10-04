@@ -1,14 +1,12 @@
 from lights.driver import Lights_Driver
 from time import sleep
 
+from machine import Pin, PWM
+
 lights_driver = Lights_Driver()
 
-while(True):
-    light = 0
-    
-    while light < 17:
-        lights_driver.light_on(light)
-        sleep(0.1)
-        lights_driver.light_off(light)
-        sleep(0.1)
-        light += 1
+d = 0
+
+for light in lights_driver.pwm_lights:
+    lights_driver.set_brightness(light, d)
+    d += 0.06
