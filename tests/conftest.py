@@ -127,6 +127,7 @@ machine = type(sys)('machine')
 machine.Pin = Pin
 machine.I2C = I2C
 machine.PWM = PWM
+machine.mem32 = None
 
 network = type(sys)('network')
 network.WLAN = WLAN
