@@ -37,7 +37,7 @@ def test_different_light_switched_on(mocker):
     mocked_set_brightness.assert_called_once_with(lights_driver.lights[4], 1)
 
 def test_invalid_light_not_switched_on(mocker):    
-    mocked_Pin_on = mocker.patch('machine.Pin.on')
+    mocked_Pin_on = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
     with pytest.raises(ValueError):
         lights_driver.light_on(17)
@@ -56,7 +56,7 @@ def test_different_light_switched_off(mocker):
     mocked_set_brightness.assert_called_once_with(lights_driver.lights[5], 0)
 
 def test_invalid_light_not_switched_off(mocker):    
-    mocked_Pin_off = mocker.patch('machine.Pin.off')
+    mocked_Pin_off = mocker.patch('machine.PWM.duty_u16')
     lights_driver = Lights_Driver()
     with pytest.raises(ValueError):
         lights_driver.light_off(17)
