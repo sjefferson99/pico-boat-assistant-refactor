@@ -32,6 +32,11 @@ if test_lights_i2c_driver == True:
     for light in lights_driver.lights:
         lights_driver.set_brightness(light, 0)
     
+    sleep(1)
     lights_i2c_driver.process_I2C(0x00) # 0x00 = light 0 on
-    
+    sleep(1)
+    lights_i2c_driver.process_I2C(0x01) # 0x00 = light 1 on
+    sleep(1)
+    lights_i2c_driver.process_I2C(0x03) # 0x00 = light 3 on
+
     sleep(1)
