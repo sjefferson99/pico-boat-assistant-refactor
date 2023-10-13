@@ -38,5 +38,11 @@ if test_lights_i2c_driver == True:
     lights_i2c_driver.process_I2C(0x01) # 0x00 = light 1 on
     sleep(1)
     lights_i2c_driver.process_I2C(0x03) # 0x00 = light 3 on
+    sleep(1)
+    lights_i2c_driver.process_I2C(0x10) # 0x00 = light 0 off
+    sleep(1)
+    lights_i2c_driver.process_I2C(0x11) # 0x00 = light 1 off
+    sleep(1)
+    lights_i2c_driver.process_I2C(0x13) # 0x00 = light 3 off
 
     sleep(1)

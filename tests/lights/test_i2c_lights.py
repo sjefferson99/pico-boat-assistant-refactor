@@ -15,4 +15,15 @@ def test_turn_on_light_1_via_I2C_data(mocker):
     lights_i2c_driver = Lights_I2C_Driver()
     lights_i2c_driver.process_I2C(0x01)
     light_on_patch.assert_called_once_with(1)
-    
+
+def test_turn_off_light_0_via_I2C_data(mocker):
+    light_off_patch = mocker.patch('lights.driver.Lights_Driver.light_off')
+    lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.process_I2C(0x10)
+    light_off_patch.assert_called_once_with(0)
+
+def test_turn_off_light_1_via_I2C_data(mocker):
+    light_off_patch = mocker.patch('lights.driver.Lights_Driver.light_off')
+    lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.process_I2C(0x11)
+    light_off_patch.assert_called_once_with(1)
