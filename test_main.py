@@ -7,6 +7,7 @@ lights_i2c_driver = Lights_I2C_Driver()
 
 test_lights_driver = False
 test_lights_i2c_driver = True
+sleep_time = 0.5
 
 if test_lights_driver == True:
     d = 0
@@ -15,34 +16,40 @@ if test_lights_driver == True:
         lights_driver.set_brightness(light, d)
         d += 0.06
 
-    sleep(1)
+    sleep(sleep_time)
 
     lights_driver.light_off(3)
 
-    sleep(1)
+    sleep(sleep_time)
 
     lights_driver.light_on(3)
 
     lights_driver.light_set_brightness(0, 0.9)
     lights_driver.light_set_brightness(13, 0.1)
     
-    sleep(1)
+    sleep(sleep_time)
 
 if test_lights_i2c_driver == True:
-    for light in lights_driver.lights:
-        lights_driver.set_brightness(light, 0)
+    for light in range(0, 15):
+        lights_driver.light_set_brightness(light, 0)
     
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x10) # 0x00 = light 0 on
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x11) # 0x00 = light 1 on
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x13) # 0x00 = light 3 on
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x00) # 0x00 = light 0 off
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x01) # 0x00 = light 1 off
-    sleep(1)
-    lights_i2c_driver.process_I2C(0x03) # 0x00 = light 3 off
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x10])) # 0x00 = light 0 on
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x11])) # 0x00 = light 1 on
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x13])) # 0x00 = light 3 on
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x00])) # 0x00 = light 0 off
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x01])) # 0x00 = light 1 off
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x03])) # 0x00 = light 3 off
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x20, 0x0f])) # 0x00 = light 0 dim
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x21, 0x7f])) # 0x00 = light 1 half
+    sleep(sleep_time)
+    lights_i2c_driver.process_I2C(bytearray([0x23, 0xff])) # 0x00 = light 3 full
 
-    sleep(1)
+    sleep(sleep_time)
