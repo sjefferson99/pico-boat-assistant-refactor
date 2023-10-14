@@ -8,7 +8,7 @@ class Lights_Driver:
         self.MAX_DUTY = 65535
 
     def init_all_lights(self):
-        for i in range(0,15):
+        for i in range(0,16):
             self.lights.append(self.light_pwm_init(Pin(i, Pin.OUT)))
 
     def light_on(self, id: int):
@@ -56,3 +56,7 @@ class Lights_Driver:
             return True
         else:
             raise ValueError("Brightness value should be between 0-1")
+        
+    def all_lights_off(self):
+        for light in range(0, 16):
+            self.light_off(light)

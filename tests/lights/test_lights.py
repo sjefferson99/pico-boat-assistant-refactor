@@ -6,6 +6,12 @@ def test_import_light_driver():
     lights_driver = Lights_Driver()
     assert isinstance(lights_driver, Lights_Driver) == True
 
+def test_all_lights_initialised(mocker):
+    mocked_light_pwm_init = mocker.patch("lights.driver.Lights_Driver.light_pwm_init")
+    lights_driver = Lights_Driver()
+    calls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    assert len(mocked_light_pwm_init.mock_calls) == len(calls)
+
 def test_all_light_pins_pwm_initialised():
     lights_driver = Lights_Driver()
     assert len(lights_driver.lights) > 0
@@ -71,7 +77,6 @@ def test_init_sets_pwm_pin(mocker):
 def test_pwm_init_sets_pwm_frequency(mocker):
     mocked_PWM_freq = mocker.patch('machine.PWM.freq')
     lights_driver = Lights_Driver()
-    lights_driver.light_pwm_init(Pin(0, Pin.OUT))
     mocked_PWM_freq.assert_any_call(1000)
     assert mocked_PWM_freq.call_count == 16
 
@@ -105,3 +110,11 @@ def test_specific_light_brightness_set_by_id(mocker):
     lights_driver = Lights_Driver()
     lights_driver.light_set_brightness(0, 0.5)
     mocked_set_brightness.assert_called_once_with(lights_driver.lights[0], 0.5)
+
+def test_set_all_lights_off(mocker):
+    mocked_light_off = mocker.patch("lights.driver.Lights_Driver.light_off")
+    lights_driver = Lights_Driver()
+    lights_driver.all_lights_off()
+    calls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    for call in calls:
+        mocked_light_off.assert_any_call(call)

@@ -5,11 +5,24 @@ from lights.i2c_driver import Lights_I2C_Driver
 lights_driver = Lights_Driver()
 lights_i2c_driver = Lights_I2C_Driver()
 
-test_lights_driver = False
+test_all_lights_on = True
+test_all_lights_off = True
+test_lights_driver = True
 test_lights_i2c_driver = True
 sleep_time = 0.5
 
+if test_all_lights_on == True:
+    for light in lights_driver.lights:
+        lights_driver.set_brightness(light, 1)
+    sleep(sleep_time)    
+
+if test_all_lights_off == True:
+    lights_driver.all_lights_off()
+    sleep(sleep_time)
+
 if test_lights_driver == True:
+    lights_driver.all_lights_off()
+    
     d = 0
 
     for light in lights_driver.lights:
@@ -30,8 +43,7 @@ if test_lights_driver == True:
     sleep(sleep_time)
 
 if test_lights_i2c_driver == True:
-    for light in range(0, 15):
-        lights_driver.light_set_brightness(light, 0)
+    lights_driver.all_lights_off()
     
     sleep(sleep_time)
     lights_i2c_driver.process_I2C(bytearray([0x10])) # 0x00 = light 0 on
