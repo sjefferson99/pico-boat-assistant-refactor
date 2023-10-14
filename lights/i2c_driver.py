@@ -31,3 +31,6 @@ class Lights_I2C_Driver:
         
         if data[0] & self.command_mask == self.data_light_brightness:
             self.lights_driver.light_set_brightness(data[0] & self.light_mask, round(data[1] / 255, 2))
+
+    def configure_responder(self, i2c_device_id=0, sda_gpio=0, scl_gpio=1, responder_address=0x41):
+        self.responder = I2CResponder(i2c_device_id, sda_gpio, scl_gpio, responder_address)

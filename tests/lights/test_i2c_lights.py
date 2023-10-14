@@ -49,8 +49,18 @@ def test_set_brightness_for_light_1_via_I2C_data(mocker):
 
 def test_i2c_responder_configured():
     lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.configure_responder()
     assert isinstance(lights_i2c_driver.responder, I2CResponder) == True
     assert lights_i2c_driver.responder.i2c_device_id == 0
     assert lights_i2c_driver.responder.sda_gpio == 0
     assert lights_i2c_driver.responder.scl_gpio == 1
+    assert lights_i2c_driver.responder.responder_address == 0x41
+
+def test_i2c_responder_custom_configured():
+    lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
+    assert isinstance(lights_i2c_driver.responder, I2CResponder) == True
+    assert lights_i2c_driver.responder.i2c_device_id == 0
+    assert lights_i2c_driver.responder.sda_gpio == 16
+    assert lights_i2c_driver.responder.scl_gpio == 17
     assert lights_i2c_driver.responder.responder_address == 0x41
