@@ -30,9 +30,9 @@ class Lights_Driver:
             raise
     
     def light_pwm_init(self, light: Pin):
-        light = PWM(light)
-        light.freq(1000)
-        return light
+        pwm_light = PWM(light)
+        pwm_light.freq(1000)
+        return pwm_light
     
     def set_brightness(self, light: PWM, brightness: float):
         try:
