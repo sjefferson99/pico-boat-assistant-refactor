@@ -12,8 +12,7 @@ test_lights_i2c_driver = True
 sleep_time = 0.5
 
 if test_all_lights_on == True:
-    for light in lights_driver.lights:
-        lights_driver.set_brightness(light, 1)
+    lights_driver.all_lights_on()
     sleep(sleep_time)    
 
 if test_all_lights_off == True:

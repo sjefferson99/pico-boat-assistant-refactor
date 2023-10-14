@@ -118,3 +118,11 @@ def test_set_all_lights_off(mocker):
     calls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
     for call in calls:
         mocked_light_off.assert_any_call(call)
+
+def test_set_all_lights_on(mocker):
+    mocked_light_on = mocker.patch("lights.driver.Lights_Driver.light_on")
+    lights_driver = Lights_Driver()
+    lights_driver.all_lights_on()
+    calls = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]
+    for call in calls:
+        mocked_light_on.assert_any_call(call)

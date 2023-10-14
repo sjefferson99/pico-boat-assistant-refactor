@@ -60,3 +60,7 @@ class Lights_Driver:
     def all_lights_off(self):
         for light in range(0, 16):
             self.light_off(light)
+    
+    def all_lights_on(self):
+        for light in range(0, 16):
+            self.light_on(light)
