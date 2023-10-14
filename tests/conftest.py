@@ -97,6 +97,30 @@ class PWM:
         """
         pass
 
+class mem32:
+    def __init__(self):
+        self._base_address = 0
+        self._data = {}
+        self._data[1074032748] = 0 # Emulate mem32 location for I2C register
+
+    @property
+    def base_address(self):
+        return self._base_address
+
+    @base_address.setter
+    def base_address(self, value):
+        self._base_address = value
+
+    def __getitem__(self, key):
+        if key < 0 or key >= 0xFFFFFFFF:
+            raise IndexError()
+        return self._data[key]
+
+    def __setitem__(self, key, value):
+        if key < 0 or key >= 0xFFFFFFFF:
+            raise IndexError()
+        self._data[key] = value
+
 # network module
 class WLAN():
     def __init__(self, interface) -> None:
@@ -127,7 +151,7 @@ machine = type(sys)('machine')
 machine.Pin = Pin
 machine.I2C = I2C
 machine.PWM = PWM
-machine.mem32 = None
+machine.mem32 = mem32()
 
 network = type(sys)('network')
 network.WLAN = WLAN
