@@ -79,7 +79,7 @@ class PWM:
         """
         pass
 
-    def freq(self, frequency: int|None=...):
+    def freq(self, frequency: int|None):
         """
         With no arguments the frequency in Hz is returned.
 
@@ -87,7 +87,7 @@ class PWM:
         """
         pass
 
-    def duty_u16(self, duration: int|None=...):
+    def duty_u16(self, duration: int|None):
         """
         Get or Set the current duty cycle of the PWM output, as an unsigned 16-bit value in the range 0 to 65535 inclusive.
 
