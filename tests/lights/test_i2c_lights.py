@@ -1,5 +1,10 @@
 from lights.i2c_driver import Lights_I2C_Driver
 from i2c_responder import I2CResponder
+from machine import mem32
+
+I2C0_BASE = 0x40044000
+IC_STATUS = 0x70
+IC_STATUS__RFNE = 0x08
 
 def test_import_lights_i2c():
     lights_i2c_driver = Lights_I2C_Driver()
@@ -64,3 +69,10 @@ def test_i2c_responder_custom_configured():
     assert lights_i2c_driver.responder.sda_gpio == 16
     assert lights_i2c_driver.responder.scl_gpio == 17
     assert lights_i2c_driver.responder.responder_address == 0x41
+
+def test_i2c_responder_write_data_is_available():
+    lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
+    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE
+    data_available = lights_i2c_driver.responder.write_data_is_available()
+    assert data_available == True
