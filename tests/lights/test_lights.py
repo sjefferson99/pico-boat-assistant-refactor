@@ -84,7 +84,7 @@ def test_set_light_to_half_brightness(mocker):
     mock_pwm_duty = mocker.patch("machine.PWM.duty_u16")
     
     lights_driver = Lights_Driver()
-    light = lights_driver.light_pwm_init(Pin(0, Pin.OUT))
+    light = lights_driver.lights[0]
     lights_driver.set_brightness(light, 0.5)
 
     mock_pwm_duty.assert_called_once_with(32767)
