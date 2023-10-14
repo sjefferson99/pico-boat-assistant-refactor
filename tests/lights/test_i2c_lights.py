@@ -5,7 +5,7 @@ from machine import mem32
 I2C0_BASE = 0x40044000
 IC_STATUS = 0x70
 IC_STATUS__RFNE = 0x08
-I2C0_FIFO_IN = 1074020368
+IC_DATA_CMD = 0x10
 
 def test_import_lights_i2c():
     lights_i2c_driver = Lights_I2C_Driver()
@@ -74,14 +74,14 @@ def test_i2c_responder_custom_configured():
 def test_i2c_responder_write_data_is_available():
     lights_i2c_driver = Lights_I2C_Driver()
     lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
-    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE
+    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE # Set read flag not empty
     data_available = lights_i2c_driver.responder.write_data_is_available()
     assert data_available == True
 
 def test_get_i2c_write_data_one_byte():
     lights_i2c_driver = Lights_I2C_Driver()
     lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
-    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE
-    mem32[I2C0_FIFO_IN] = 0x13
+    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE # Set read flag not empty
+    mem32[I2C0_BASE | IC_DATA_CMD] = 0x13 # Populate I2C register with mock rx FIO data
     data = lights_i2c_driver.responder.get_write_data()
     assert data == [0x13]
