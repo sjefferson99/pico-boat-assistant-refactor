@@ -1,4 +1,5 @@
 from lights.i2c_driver import Lights_I2C_Driver
+from i2c_responder import I2CResponder
 
 def test_import_lights_i2c():
     lights_i2c_driver = Lights_I2C_Driver()
@@ -45,3 +46,7 @@ def test_set_brightness_for_light_1_via_I2C_data(mocker):
     lights_i2c_driver = Lights_I2C_Driver()
     lights_i2c_driver.process_I2C(bytearray([0x21, 0x7f]))
     set_brightness_patch.assert_called_once_with(1, 0.5)
+
+def test_i2c_responder_exists():
+    lights_i2c_driver = Lights_I2C_Driver()
+    assert isinstance(lights_i2c_driver.responder, I2CResponder) == True

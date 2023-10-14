@@ -1,4 +1,4 @@
-import i2c_responder
+from i2c_responder import I2CResponder
 from lights.driver import Lights_Driver
 
 class Lights_I2C_Driver:
@@ -20,6 +20,7 @@ class Lights_I2C_Driver:
         self.data_light_off = 0x00
         self.data_light_on = 0x10
         self.data_light_brightness = 0x20
+        self.responder = I2CResponder()
 
     def process_I2C(self, data: bytearray):
         if data[0] & self.command_mask == self.data_light_off:
