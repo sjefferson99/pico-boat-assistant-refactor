@@ -101,7 +101,8 @@ class mem32:
     def __init__(self):
         self._base_address = 0
         self._data = {}
-        self._data[1074032748] = 0 # Emulate mem32 location for I2C register
+        self._data[0x40044070] = 0
+        self._data[0x40044010] = 0
 
     @property
     def base_address(self):
