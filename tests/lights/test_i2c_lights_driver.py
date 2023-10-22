@@ -1,5 +1,5 @@
 from lights.i2c_driver import Lights_I2C_Driver
-from i2c_responder import I2CResponder
+from i2c.i2c_responder import I2CResponder
 from machine import mem32
 import mock
 
@@ -90,7 +90,7 @@ def test_get_i2c_write_data_one_byte(mocker):
 def test_get_i2c_write_data_mocked_output(mocker):
     lights_i2c_driver = Lights_I2C_Driver()
     lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
-    i2cresponder_get_write_data_memory_read = mocker.patch('i2c_responder.I2CResponder.read_memory_at_address')
+    i2cresponder_get_write_data_memory_read = mocker.patch('i2c.i2c_responder.I2CResponder.read_memory_at_address')
     i2cresponder_get_write_data_memory_read.side_effect = [0x11, 0x22, 0x33]
     mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE # Set read flag not empty
     data = lights_i2c_driver.responder.get_write_data(max_size=3)

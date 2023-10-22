@@ -1,4 +1,4 @@
-from i2c_responder import I2CResponder
+from i2c.i2c_responder import I2CResponder
 from lights.driver import Lights_Driver
 
 class Lights_I2C_Driver:
