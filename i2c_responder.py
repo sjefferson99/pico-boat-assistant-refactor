@@ -182,6 +182,9 @@ class I2CResponder:
         """
         data = []
         while len(data) < max_size and self.write_data_is_available():
-            data.append(mem32[self.i2c_base | self.IC_DATA_CMD] & 0xFF) # type: ignore
+            data.append(self.read_memory_at_address(self.i2c_base | self.IC_DATA_CMD) & 0xFF)
         return data
+    
+    def read_memory_at_address(self, address):
+        return mem32[address]
     

@@ -87,13 +87,11 @@ def test_get_i2c_write_data_one_byte(mocker):
     data = lights_i2c_driver.responder.get_write_data()
     assert data == [0x13]
 
-## I cannot get this test to patch mem32 to return mtuliple values
-# def test_get_i2c_write_data_two_bytes():
-#     lights_i2c_driver = Lights_I2C_Driver()
-#     lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
-#     mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE # Set read flag not empty
-#     mem32_getitem_mock = mock.Mock()
-#     mem32_getitem_mock.side_effect = [0x11, 0x22, 0x33]
-#     with mock.patch('machine.mem32', mem32_getitem_mock):
-#         data = lights_i2c_driver.responder.get_write_data(max_size=3)
-#     assert data == [0x11, 0x22, 0x33]
+def test_get_i2c_write_data_mocked_output(mocker):
+    lights_i2c_driver = Lights_I2C_Driver()
+    lights_i2c_driver.configure_responder(i2c_device_id=0 , sda_gpio=16, scl_gpio=17, responder_address=0x41)
+    i2cresponder_get_write_data_memory_read = mocker.patch('i2c_responder.I2CResponder.read_memory_at_address')
+    i2cresponder_get_write_data_memory_read.side_effect = [0x11, 0x22, 0x33]
+    mem32[I2C0_BASE | IC_STATUS] = IC_STATUS__RFNE # Set read flag not empty
+    data = lights_i2c_driver.responder.get_write_data(max_size=3)
+    assert data == [0x11, 0x22, 0x33]
