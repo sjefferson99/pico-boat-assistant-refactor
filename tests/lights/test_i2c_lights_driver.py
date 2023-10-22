@@ -1,7 +1,6 @@
 from lights.i2c_driver import Lights_I2C_Driver
 from i2c.i2c_responder import I2CResponder
 from machine import mem32
-import mock
 
 I2C0_BASE = 0x40044000
 IC_STATUS = 0x70
